@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Slot Game</title>
+<style>
+  body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #222; color: #fff; }
+  button { padding: 20px 30px; margin: 10px; cursor: pointer; font-size: 18px; }
+  #reels { font-size: 3rem; margin-top: 20px; }
+</style>
+</head>
+<body>
+<h1>Slot Game 🎰</h1>
+<p>Player: <span id="player"></span></p>
+<p>Coins: <span id="coins">100</span></p>
+<div id="reels">🍒 🍋 🍊</div>
+<button onclick="spin()">Spin</button>
+<button onclick="logout()">Logout</button>
+
+<script>
+const symbols = ['🍒','🍋','🍊','🍉','⭐','7️⃣'];
+let coins = 100;
+
+// Check login
+const player = localStorage.getItem('loggedInUser');
+if(!player){
+  alert('Please login first!');
+  window.location.href = 'login.html';
+}
+document.getElementById('player').textContent = player;
+
+// Spin function
+function spin(){
+  if(coins <= 0){
+    alert('Out of coins!');
+    return;
+  }
+  coins -= 10;
+  let reel1 = symbols[Math.floor(Math.random()*symbols.length)];
+  let reel2 = symbols[Math.floor(Math.random()*symbols.length)];
+  let reel3 = symbols[Math.floor(Math.random()*symbols.length)];
+  document.getElementById('reels').textContent = reel1 + ' ' + reel2 + ' ' + reel3;
+  
+  if(reel1 === reel2 && reel2 === reel3){
+    coins += 100;
+    alert('🎉 Jackpot! +100 coins');
+  } else if(reel1 === reel2 || reel2 === reel3 || reel1 === reel3){
+    coins += 20;
+    alert('🎉 Small win! +20 coins');
+  }
+  document.getElementById('coins').textContent = coins;
+}
+
+// Logout function
+function logout(){
+  localStorage.removeItem('loggedInUser');
+  window.location.href = 'login.html';
+}
+</script>
+</body>
+</html>
