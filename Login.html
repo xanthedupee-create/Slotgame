@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<style>
+  body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #222; color: #fff; }
+  input { margin: 5px; padding: 8px; width: 150px; }
+  button { padding: 8px 12px; cursor: pointer; margin: 5px; }
+  #msg { color: yellow; }
+</style>
+</head>
+<body>
+<div>
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username"><br>
+  <input type="password" id="password" placeholder="Password"><br>
+  <button onclick="register()">Register</button>
+  <button onclick="login()">Login</button>
+  <p id="msg"></p>
+</div>
+
+<script>
+function register() {
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value.trim();
+  if(user && pass){
+    if(localStorage.getItem('user_' + user)){
+      document.getElementById('msg').textContent = 'Username already exists!';
+    } else {
+      localStorage.setItem('user_' + user, pass);
+      document.getElementById('msg').textContent = 'Registered! Now login.';
+    }
+  } else {
+    document.getElementById('msg').textContent = 'Please fill both fields!';
+  }
+}
+
+function login() {
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value.trim();
+  const stored = localStorage.getItem('user_' + user);
+  if(stored && stored === pass){
+    localStorage.setItem('loggedInUser', user);
+    window.location.href = 'game.html';
+  } else {
+    document.getElementById('msg').textContent = 'Invalid username or password!';
+  }
+}
+</script>
+</body>
+</html>
